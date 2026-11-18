@@ -1,28 +1,23 @@
 1. Когортный анализ Retention (Удержание)
 
 WITH UserCohorts AS (
-    -- Определяем месяц регистрации (когорту) для каждого пользователя
-    SELECT 
-        user_id,
-        STRFTIME('%Y-%m', reg_date) AS cohort_month
+    SELECT user_id, STRFTIME('%Y-%m', reg_date) AS cohort_month
     FROM users
 ),
 OrderMonths AS (
-    -- Определяем месяц покупки и связываем с когортой через JOIN
-    SELECT 
+    SELECT DISTINCT -- <--- ВОТ ЭТО ГЛАВНОЕ ИСПРАВЛЕНИЕ
         o.user_id,
-        uc.cohort_month, -- Берем из CTE UserCohorts
-        -- Считаем разницу в месяцах между покупкой и регистрацией
+        uc.cohort_month,
         (CAST(STRFTIME('%Y', o.order_date) AS INTEGER) - CAST(STRFTIME('%Y', u.reg_date) AS INTEGER)) * 12 + 
         (CAST(STRFTIME('%m', o.order_date) AS INTEGER) - CAST(STRFTIME('%m', u.reg_date) AS INTEGER)) AS month_diff
     FROM orders o
     JOIN users u ON o.user_id = u.user_id
-    JOIN UserCohorts uc ON o.user_id = uc.user_id -- Связываем с когортой
+    JOIN UserCohorts uc ON o.user_id = uc.user_id
 )
 SELECT 
     cohort_month,
     month_diff,
-    COUNT(DISTINCT user_id) AS active_users
+    COUNT(user_id) AS active_users
 FROM OrderMonths
 GROUP BY cohort_month, month_diff
 ORDER BY cohort_month, month_diff;
