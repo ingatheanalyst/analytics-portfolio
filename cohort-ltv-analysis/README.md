@@ -48,7 +48,7 @@
 2. Для `paid_ads` провести аудит рекламных кампаний, чтобы снизить стоимость лида (CAC) и повысить LTV.
 
 ## 🚀 Как запустить проект
-1. Установите зависимости: `pip install pandas numpy matplotlib seaborn`.
+1. Установите библиотеки: `pip install pandas numpy matplotlib seaborn`.
 2. Сгенерируйте данные: `python generate_data.py`.
 3. Импортируйте CSV-файлы в SQLite (разделитель `;`) или запустите готовую базу `cohort.db`.
 4. Выполните запросы из `queries.sql` в DB Browser for SQLite.
