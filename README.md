@@ -7,8 +7,7 @@
 ## 🎯 Мой подход
 Я не просто строю графики, а ищу ответы на бизнес-вопросы. В каждом проекте есть блок **«Ключевые инсайты и бизнес-рекомендации»**, где я объясняю, какую проблему мы решали и какие выводы сделали на основе данных.
 
-**Стек:** SQL (PostgreSQL, SQLite), Python (Pandas, SciPy, Matplotlib, Seaborn), BI (Tableau, Yandex DataLens, Power BI), ETL.
-![Python](https://img.shields.io/badge/Python-Pandas%20%7C%20SciPy-3776AB?logo=python&logoColor=white)
+**Стек:** ![Python](https://img.shields.io/badge/Python-Pandas%20%7C%20SciPy-3776AB?logo=python&logoColor=white)
 ![SQL](https://img.shields.io/badge/SQL-PostgreSQL%20%7C%20SQLite-336791?logo=postgresql&logoColor=white)
 ![BI](https://img.shields.io/badge/BI-Tableau%20%7C%20DataLens-E97627?logo=tableau&logoColor=white)
 
