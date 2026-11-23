@@ -87,6 +87,7 @@ GROUP BY delivery_status;
 -- Зачем: Понять, возвращаются ли клиенты после первой покупки.
 -- Фишка: Считаю месяц первого заказа (когорту), а затем разницу в месяцах до следующих заказов.
 WITH CustomerFirstOrder AS (
+    -- 1. Находим месяц первого заказа для каждого клиента (это его когорта)
     SELECT 
         c.customer_unique_id,
         MIN(STRFTIME('%Y-%m', o.order_purchase_timestamp)) AS cohort_month
@@ -95,24 +96,22 @@ WITH CustomerFirstOrder AS (
     GROUP BY c.customer_unique_id
 ),
 OrderActivity AS (
+    -- 2. Смотрим, в какие месяцы клиенты совершали заказы, и считаем разницу
     SELECT 
         c.customer_unique_id,
         f.cohort_month,
-        STRFTIME('%Y-%m', o.order_purchase_timestamp) AS order_month,
-        -- Математика для разницы в месяцах в SQLite
-        (CAST(STRFTIME('%Y', o.order_purchase_timestamp) AS INT) - CAST(SUBSTR(f.cohort_month, 1, 4) AS INT)) * 12 + 
-        (CAST(STRFTIME('%m', o.order_purchase_timestamp) AS INT) - CAST(SUBSTR(f.cohort_month, 6, 2) AS INT)) AS month_diff
+        -- Считаем разницу в месяцах: (Год заказа - Год когорты) * 12 + (Месяц заказа - Месяц когорты)
+        (CAST(STRFTIME('%Y', o.order_purchase_timestamp) AS INTEGER) - CAST(SUBSTR(f.cohort_month, 1, 4) AS INTEGER)) * 12 + 
+        (CAST(STRFTIME('%m', o.order_purchase_timestamp) AS INTEGER) - CAST(SUBSTR(f.cohort_month, 6, 2) AS INTEGER)) AS month_diff
     FROM orders o
     JOIN customers c ON o.customer_id = c.customer_id
-    JOIN
-
-
-Order f ON c.customer_unique_id = f.customer_unique_id
+    JOIN CustomerFirstOrder f ON c.customer_unique_id = f.customer_unique_id
 )
+-- 3. Группируем и считаем активных пользователей
 SELECT 
     cohort_month,
     month_diff,
     COUNT(DISTINCT customer_unique_id) AS active_customers
 FROM OrderActivity
 GROUP BY cohort_month, month_diff
-ORDER BY cohort_month, month_diff; CustomerFirst
+ORDER BY cohort_month, month_diff;
