@@ -135,4 +135,4 @@ if not df_delivery.empty:
 else:
     st.info("Нет данных по доставке за выбранный период.")
 
-st.caption("Данные: Brazilian E-Commerce Public Dataset by Olist (Kaggle)")'tota
+st.caption("Данные: Brazilian E-Commerce Public Dataset by Olist (Kaggle)")
