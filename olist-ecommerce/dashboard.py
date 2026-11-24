@@ -98,12 +98,7 @@ if df_revenue.empty:
 total_rev = df_revenue['total_revenue'].sum()
 total_orders = df_revenue['total_orders'].sum()
 # Защита от деления на ноль, если по фильтрам нет отзывов
-avg_score = (df_delivery['avg_review_score'] * df_delivery[
-Plotly express in Python
-plotly.com
-
-
-l_orders']).sum() / df_delivery['total_orders'].sum() if not df_delivery.empty else 0
+avg_score = (df_delivery['avg_review_score'] * df_delivery[l_orders']).sum() / df_delivery['total_orders'].sum() if not df_delivery.empty else 0
 
 col1, col2, col3 = st.columns(3)
 col1.metric("Общая выручка", f"{total_rev:,.0f} BRL")
